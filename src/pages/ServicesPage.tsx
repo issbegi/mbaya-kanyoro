@@ -16,6 +16,8 @@ import taxImg from "@/assets/tax.png";
 import accountImg from "@/assets/account.png";
 import companyImg from "@/assets/company.png";
 import riskImg from "@/assets/risk.png";
+import busimg from "@/assets/communication.png";
+
 
 const services = [
   {
@@ -64,7 +66,7 @@ const services = [
     slug: "business-advisory",
     desc: "Business valuations, due diligence, forecasts & projections, cash-flow management, estate and succession planning.",
     features: ["Business Valuations", "Due Diligence", "Forecasts & Projections", "Cash-Flow Management", "Succession Planning"],
-    image: null, // You can add a local image here if you have one
+    image: busimg, // You can add a local image here if you have one
   },
 ];
 
