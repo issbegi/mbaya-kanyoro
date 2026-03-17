@@ -2,9 +2,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useState, useCallback } from "react";
+
 import Index from "./pages/Index";
 import AboutPage from "./pages/AboutPage";
 import ServicesPage from "./pages/ServicesPage";
@@ -20,6 +21,7 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsPage from "./pages/TermsPage";
 import ProfessionalMembershipsPage from "./pages/ProfessionalMembershipsPage";
 import NotFound from "./pages/NotFound";
+
 import Preloader from "./components/Preloader";
 import ScrollToTop from "./components/ScrollToTop";
 import ScrollToTopButton from "./components/ScrollToTopButton";
@@ -38,7 +40,6 @@ const AnimatedRoutes = () => {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/who-we-help" element={<WhoWeHelpPage />} />
         <Route path="/faqs" element={<FAQsPage />} />
-       
         <Route path="/news-insights" element={<NewsInsightsPage />} />
         <Route path="/tax-calendar" element={<TaxCalendarPage />} />
         <Route path="/client-portal" element={<ClientPortalPage />} />
@@ -64,11 +65,11 @@ const App = () => {
           {loading && <Preloader onComplete={handleComplete} />}
         </AnimatePresence>
         {!loading && (
-          <BrowserRouter>
+          <HashRouter>
             <ScrollToTop />
             <ScrollToTopButton />
             <AnimatedRoutes />
-          </BrowserRouter>
+          </HashRouter>
         )}
       </TooltipProvider>
     </QueryClientProvider>
