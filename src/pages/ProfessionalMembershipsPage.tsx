@@ -70,7 +70,6 @@ const ProfessionalMembershipsPage = () => {
 
         <section className="py-20 bg-background">
           <div className="container mx-auto px-4 lg:px-8 max-w-6xl">
-
             {/* Section Intro */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -99,7 +98,6 @@ const ProfessionalMembershipsPage = () => {
 
             {/* Membership Grid */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
               {memberships.map((m, i) => (
                 <motion.div
                   key={m.name}
@@ -113,7 +111,7 @@ const ProfessionalMembershipsPage = () => {
                     <img
                       src={m.logo}
                       alt={m.name}
-                      className="max-h-12 object-contain grayscale group-hover:grayscale-0 transition-all duration-300"
+                      className="max-h-12 object-contain transition-all duration-300"
                       loading="lazy"
                     />
                   </div>
@@ -134,7 +132,6 @@ const ProfessionalMembershipsPage = () => {
                   </p>
                 </motion.div>
               ))}
-
             </div>
           </div>
         </section>

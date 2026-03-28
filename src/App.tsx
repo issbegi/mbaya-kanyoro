@@ -16,7 +16,6 @@ import FAQsPage from "./pages/FAQsPage";
 
 import NewsInsightsPage from "./pages/NewsInsightsPage";
 import TaxCalendarPage from "./pages/TaxCalendarPage";
-import ClientPortalPage from "./pages/ClientPortalPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsPage from "./pages/TermsPage";
 import ProfessionalMembershipsPage from "./pages/ProfessionalMembershipsPage";
@@ -42,7 +41,6 @@ const AnimatedRoutes = () => {
         <Route path="/faqs" element={<FAQsPage />} />
         <Route path="/news-insights" element={<NewsInsightsPage />} />
         <Route path="/tax-calendar" element={<TaxCalendarPage />} />
-        <Route path="/client-portal" element={<ClientPortalPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/professional-memberships" element={<ProfessionalMembershipsPage />} />

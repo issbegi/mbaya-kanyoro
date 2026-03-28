@@ -3,63 +3,54 @@ import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
 import PageTransition from "@/components/PageTransition";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, ExternalLink, X, BookOpen } from "lucide-react";
+import { Calendar, ExternalLink, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const articles = [
   {
-    title: "Understanding the Finance Act 2025",
-    category: "Tax",
-    date: "February 2026",
-    excerpt:
-      "A comprehensive breakdown of the key changes in the Finance Act and how they affect businesses and individuals.",
-    heyzineUrl: "https://heyzine.com/flip-book/ffa6adc731.html?embed=1",
-    color: "from-gold/20 to-gold/5",
-  },
-  {
-    title: "Transfer Pricing Compliance in East Africa",
+    title: "POCAMLA Regulations Sensitization",
     category: "Advisory",
-    date: "January 2026",
+    date: "August 2025",
     excerpt:
-      "Key considerations for multinational enterprises operating across East African borders.",
-    heyzineUrl: "https://heyzine.com/flip-book/example2?embed=1",
-    color: "from-oxford/20 to-oxford/5",
+      "An in-depth sensitization on the Proceeds of Crime and Anti-Money Laundering Act — what it means for businesses, compliance obligations, and the steps organizations must take to avoid penalties.",
+    heyzineUrl: "https://heyzine.com/flip-book/5422b73619.html",
+    thumbnail: "src/assets/pocamla-regulations.jpg",
   },
   {
-    title: "IFRS Updates: What You Need to Know",
-    category: "Audit",
-    date: "December 2025",
-    excerpt:
-      "A summary of the latest International Financial Reporting Standards changes and their impact on financial statements.",
-    heyzineUrl: "https://heyzine.com/flip-book/example3?embed=1",
-    color: "from-gold/15 to-oxford/10",
-  },
-  {
-    title: "VAT Compliance Guide for SMEs",
+    title: "Income Tax Act Proposed Amendments",
     category: "Tax",
-    date: "November 2025",
+    date: "May 2025",
     excerpt:
-      "Practical guide to help small and medium enterprises navigate VAT obligations in Kenya.",
-    heyzineUrl: "https://heyzine.com/flip-book/example4?embed=1",
-    color: "from-gold/20 to-gold/5",
+      "A detailed review of the proposed amendments to the Income Tax Act, covering changes to individual and corporate tax rates, new deductions, and implications for taxpayers across sectors.",
+    heyzineUrl: "https://heyzine.com/flip-book/ffa6adc731.html",
+    thumbnail: "src/assets/income-tax-amendments.jpg",
   },
   {
-    title: "Corporate Governance Best Practices",
+    title: "Trump Tariffs Threaten Kenya - U.S. Trade Gains",
     category: "Advisory",
-    date: "October 2025",
+    date: "April 2025",
     excerpt:
-      "Essential governance frameworks every board should implement for sustainable growth.",
-    heyzineUrl: "https://heyzine.com/flip-book/example5?embed=1",
-    color: "from-oxford/20 to-oxford/5",
+      "An analysis of how the reintroduction of U.S. tariffs under the Trump administration risks undermining Kenya's trade advantages, including AGOA benefits, and what businesses should prepare for.",
+    heyzineUrl: "https://heyzine.com/flip-book/41ff0af289.html",
+    thumbnail: "src/assets/trump-tariffs-kenya.jpg",
   },
   {
-    title: "Annual Audit Planning Checklist",
-    category: "Audit",
-    date: "September 2025",
+    title: "Implementation of The Income Tax",
+    category: "Tax",
+    date: "March 2025",
     excerpt:
-      "Prepare for your next audit cycle with this comprehensive planning checklist.",
-    heyzineUrl: "https://heyzine.com/flip-book/example6?embed=1",
-    color: "from-gold/15 to-oxford/10",
+      "A practical guide to the rollout of recent Income Tax provisions, including key compliance timelines, filing requirements, and what both individuals and corporates need to action immediately.",
+    heyzineUrl: "https://heyzine.com/flip-book/4232796bb8.html",
+    thumbnail: "src/assets/income-tax-implementation.jpg",
+  },
+  {
+    title: "NSSF Contribution Rates Starting February 2025",
+    category: "Audit",
+    date: "February 2025",
+    excerpt:
+      "A breakdown of the new NSSF contribution rates effective February 2025, how they are calculated under the NSSF Act 2013, and the compliance impact on employers and employees.",
+    heyzineUrl: "https://heyzine.com/flip-book/f1a891188c.html",
+    thumbnail: "src/assets/nssf-contribution-rates.jpg",
   },
 ];
 
@@ -73,13 +64,13 @@ const categoryColors: Record<string, string> = {
 
 const NewsInsightsPage = () => {
   const [filter, setFilter] = useState("All");
-  const [selectedArticle, setSelectedArticle] = useState<typeof articles[0] | null>(
-    null
-  );
+  const [selectedArticle, setSelectedArticle] = useState<
+    (typeof articles)[0] | null
+  >(null);
 
-  const filtered = filter === "All" ? articles : articles.filter((a) => a.category === filter);
+  const filtered =
+    filter === "All" ? articles : articles.filter((a) => a.category === filter);
 
-  // Lock body scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = selectedArticle ? "hidden" : "";
     return () => {
@@ -87,8 +78,7 @@ const NewsInsightsPage = () => {
     };
   }, [selectedArticle]);
 
-  // Open flipbook modal or full screen on mobile
-  const openArticle = (article: typeof articles[0]) => {
+  const openArticle = (article: (typeof articles)[0]) => {
     if (window.innerWidth < 768) {
       window.open(article.heyzineUrl, "_blank");
     } else {
@@ -188,16 +178,17 @@ const NewsInsightsPage = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.08 }}
                   layout
-                  className="bg-card rounded-xl border border-border overflow-hidden hover:shadow-oxford hover:border-gold/30 transition-all duration-300 group cursor-pointer"
+                  className="bg-card rounded-xl border border-border overflow-hidden hover:shadow-oxford hover:border-gold/30 transition-all duration-300 group cursor-pointer flex flex-col"
                   onClick={() => openArticle(article)}
                 >
-                  {/* Gradient header */}
-                  <div
-                    className={`h-32 bg-gradient-to-br ${article.color} flex items-center justify-center relative`}
-                  >
-                    <div className="w-14 h-14 rounded-xl bg-card/80 backdrop-blur-sm flex items-center justify-center shadow-lg">
-                      <BookOpen className="w-7 h-7 text-gold" />
-                    </div>
+                  {/* Portrait Thumbnail */}
+                  <div className="h-[340px] relative overflow-hidden bg-muted flex items-center justify-center p-3">
+                    <img
+                      src={article.thumbnail}
+                      alt={article.title}
+                      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-oxford-dark/0 group-hover:bg-oxford-dark/20 transition-colors duration-300" />
                     <div className="absolute top-3 right-3">
                       <span
                         className={`inline-block px-3 py-1 rounded-full text-[10px] uppercase tracking-wider font-semibold border backdrop-blur-sm ${
@@ -208,18 +199,22 @@ const NewsInsightsPage = () => {
                       </span>
                     </div>
                   </div>
-                  <div className="p-5 md:p-6">
+
+                  <div className="p-5 md:p-6 flex flex-col flex-1">
                     <div className="flex items-center gap-1.5 mb-3 text-muted-foreground">
                       <Calendar className="w-3.5 h-3.5" />
                       <span className="font-sans text-xs">{article.date}</span>
                     </div>
+
                     <h3 className="font-display text-base md:text-lg font-bold text-foreground mb-2 group-hover:text-gold transition-colors leading-snug">
                       {article.title}
                     </h3>
+
                     <p className="font-sans text-sm text-muted-foreground mb-4 leading-relaxed line-clamp-3">
                       {article.excerpt}
                     </p>
-                    <span className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold group-hover:gap-3 transition-all duration-300">
+
+                    <span className="mt-auto inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold group-hover:gap-3 transition-all duration-300">
                       <ExternalLink className="w-4 h-4" />
                       Read Flipbook
                     </span>

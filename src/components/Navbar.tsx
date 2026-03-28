@@ -25,10 +25,9 @@ const navLinks = [
     children: [
       { label: "News & Insights", href: "/news-insights" },
       { label: "Tax Calendar", href: "/tax-calendar" },
-      { label: "Client Portal", href: "/client-portal" },
+      { label: "FAQs", href: "/faqs" },
     ],
   },
-  { label: "FAQs", href: "/faqs" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -66,13 +65,12 @@ const Navbar = () => {
       style={{ zIndex: 9999 }}
     >
       <div className="container mx-auto flex items-center justify-between px-6 lg:px-10">
-
         {/* Logo */}
         <Link to="/" className="flex items-center" style={{ zIndex: 10000 }}>
           <img
             src={logo}
             alt="Mbaya & Kanyoro LLP Logo"
-            className="h-20 md:h-24 lg:h-28 object-contain"
+            className="h-20 md:h-20 lg:h-24 object-contain"
           />
         </Link>
 
@@ -82,11 +80,19 @@ const Navbar = () => {
             <div key={link.label} className="relative group">
               <Link
                 to={link.href}
-                className={`font-sans text-base font-medium transition-colors flex items-center gap-2 ${
+                className={`font-sans text-base font-semibold tracking-wide transition-colors flex items-center gap-2 ${
                   location.pathname === link.href
                     ? "text-gold"
-                    : "text-primary-foreground/80 hover:text-gold"
+                    : "hover:text-gold"
                 }`}
+                style={{
+                  color:
+                    location.pathname === link.href
+                      ? undefined
+                      : scrolled
+                      ? "#ffffff"
+                      : "#f0f4ff",
+                }}
               >
                 {link.label}
                 {link.children && <ChevronDown className="w-4 h-4" />}
@@ -121,7 +127,7 @@ const Navbar = () => {
         {/* Mobile Toggle */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="lg:hidden text-primary-foreground relative z-20"
+          className="lg:hidden text-white relative z-20"
           aria-label="Toggle menu"
         >
           <Menu className="w-8 h-8" />
@@ -141,11 +147,10 @@ const Navbar = () => {
               style={{ zIndex: 9999 }}
             >
               <div className="pt-8 pb-10 px-6 space-y-2 relative">
-
                 {/* Close Button */}
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="absolute top-6 right-6 text-primary-foreground z-50"
+                  className="absolute top-6 right-6 text-white z-50"
                 >
                   <X className="w-8 h-8" />
                 </button>
@@ -177,7 +182,7 @@ const Navbar = () => {
                               openDropdown === link.label ? null : link.label
                             )
                           }
-                          className="w-full py-4 text-lg font-medium text-primary-foreground/90 hover:text-gold flex items-center justify-between border-b border-primary-foreground/10"
+                          className="w-full py-4 text-lg font-medium text-white hover:text-gold flex items-center justify-between border-b border-white/10"
                         >
                           {link.label}
                           <ChevronDown
@@ -201,7 +206,7 @@ const Navbar = () => {
                                   <Link
                                     key={child.label}
                                     to={child.href}
-                                    className="block py-3 text-base text-primary-foreground/70 hover:text-gold"
+                                    className="block py-3 text-base text-white/70 hover:text-gold"
                                   >
                                     {child.label}
                                   </Link>
@@ -214,7 +219,7 @@ const Navbar = () => {
                     ) : (
                       <Link
                         to={link.href}
-                        className="block py-4 text-lg font-medium text-primary-foreground/90 hover:text-gold border-b border-primary-foreground/10"
+                        className="block py-4 text-lg font-medium text-white hover:text-gold border-b border-white/10"
                       >
                         {link.label}
                       </Link>

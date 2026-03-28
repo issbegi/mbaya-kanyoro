@@ -135,10 +135,10 @@ const ClientLogos = () => {
       >
         <div className="flex animate-marquee">
           {doubled.map((client, i) => (
-            <div
-              key={`${client.name}-${i}`}
-              className="flex-shrink-0 mx-8 flex items-center justify-center p-4 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300"
-            >
+<div
+  key={`${client.name}-${i}`}
+  className="flex-shrink-0 mx-8 flex items-center justify-center p-4 opacity-100 hover:opacity-100 transition-all duration-300"
+>
               <img
                 src={client.logo}
                 alt={client.name}

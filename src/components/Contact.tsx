@@ -2,7 +2,21 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Link } from "react-router-dom";
+import emailjs from "@emailjs/browser";
+
+const EMAILJS_SERVICE_ID = "service_l7jhb3s";
+const EMAILJS_TEMPLATE_ID = "template_rrao4yj";
+const EMAILJS_PUBLIC_KEY = "Xs4yGX2iQtyZs1x1m";
+
+const getInitials = (name: string) =>
+  name
+    .trim()
+    .split(" ")
+    .filter(Boolean)
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 
 const Contact = () => {
   const ref = useRef(null);
@@ -11,14 +25,42 @@ const Contact = () => {
   const [formData, setFormData] = useState({
     name: "", email: "", phone: "", service: "", message: "",
   });
+  const [isSending, setIsSending] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message Sent",
-      description: "Thank you for reaching out. We'll get back to you within 24 hours.",
-    });
-    setFormData({ name: "", email: "", phone: "", service: "", message: "" });
+    setIsSending(true);
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          phone: formData.phone || "Not provided",
+          service: formData.service || "Not specified",
+          message: formData.message,
+          initials: getInitials(formData.name),
+        },
+        EMAILJS_PUBLIC_KEY
+      );
+
+      toast({
+        title: "Message Sent",
+        description: "Thank you for reaching out. We'll get back to you within 24 hours.",
+      });
+      setFormData({ name: "", email: "", phone: "", service: "", message: "" });
+    } catch (error) {
+      console.error("EmailJS error:", error);
+      toast({
+        title: "Failed to Send",
+        description: "Something went wrong. Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -78,39 +120,78 @@ const Contact = () => {
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="font-sans text-sm font-medium text-foreground block mb-2">Full Name *</label>
-                <input type="text" required maxLength={100} value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-background font-sans text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors" placeholder="John Doe" />
+                <input
+                  type="text"
+                  required
+                  maxLength={100}
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background font-sans text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors"
+                  placeholder="John Doe"
+                />
               </div>
               <div>
                 <label className="font-sans text-sm font-medium text-foreground block mb-2">Email *</label>
-                <input type="email" required maxLength={255} value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-background font-sans text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors" placeholder="john@example.com" />
+                <input
+                  type="email"
+                  required
+                  maxLength={255}
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background font-sans text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors"
+                  placeholder="john@example.com"
+                />
               </div>
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="font-sans text-sm font-medium text-foreground block mb-2">Phone</label>
-                <input type="tel" maxLength={20} value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-background font-sans text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors" placeholder="+254 700 000 000" />
+                <input
+                  type="tel"
+                  maxLength={20}
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background font-sans text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors"
+                  placeholder="+254 700 000 000"
+                />
               </div>
               <div>
                 <label className="font-sans text-sm font-medium text-foreground block mb-2">Service Needed</label>
-                <select value={formData.service} onChange={(e) => setFormData({ ...formData, service: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-background font-sans text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors">
+                <select
+                  value={formData.service}
+                  onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                  className="w-full px-4 py-3 rounded-lg border border-border bg-background font-sans text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors"
+                >
                   <option value="">Select a service</option>
-                  <option value="auditing">Auditing</option>
-                  <option value="tax">Tax Advisory</option>
-                  <option value="accounting">Accounting</option>
-                  <option value="secretarial">Company Secretarial</option>
-                  <option value="risk">Risk Assessment</option>
-                  <option value="advisory">Business Advisory</option>
-                  <option value="other">Other Services</option>
+                  <option value="Auditing">Auditing</option>
+                  <option value="Tax Advisory">Tax Advisory</option>
+                  <option value="Accounting">Accounting</option>
+                  <option value="Company Secretarial">Company Secretarial</option>
+                  <option value="Risk Assessment">Risk Assessment</option>
+                  <option value="Business Advisory">Business Advisory</option>
+                  <option value="Other Services">Other Services</option>
                 </select>
               </div>
             </div>
             <div>
               <label className="font-sans text-sm font-medium text-foreground block mb-2">Message *</label>
-              <textarea required maxLength={1000} rows={5} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-background font-sans text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors resize-none" placeholder="Tell us about your needs..." />
+              <textarea
+                required
+                maxLength={1000}
+                rows={5}
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                className="w-full px-4 py-3 rounded-lg border border-border bg-background font-sans text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors resize-none"
+                placeholder="Tell us about your needs..."
+              />
             </div>
-            <button type="submit" className="inline-flex items-center gap-2 bg-oxford font-sans font-semibold px-8 py-4 rounded-lg text-primary-foreground hover:bg-oxford-light transition-colors text-sm w-full justify-center">
+            <button
+              type="submit"
+              disabled={isSending}
+              className="inline-flex items-center gap-2 bg-oxford font-sans font-semibold px-8 py-4 rounded-lg text-primary-foreground hover:bg-oxford-light transition-colors text-sm w-full justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+            >
               <Send className="w-4 h-4" />
-              Send Message
+              {isSending ? "Sending..." : "Send Message"}
             </button>
           </motion.form>
         </div>

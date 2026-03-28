@@ -497,7 +497,7 @@ const WhoWeHelpPage = () => {
                     <img
                       src={org.logo}
                       alt={org.name}
-                      className="max-h-12 object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                      className="max-h-12 object-contain transition-all duration-300"
                       loading="lazy"
                     />
                   </div>
